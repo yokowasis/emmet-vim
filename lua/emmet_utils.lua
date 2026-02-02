@@ -1,9 +1,10 @@
 local M = {}
 
 M.get_node_at_cursor = function()
-	local ts_utils = require("nvim-treesitter.ts_utils")
-	local node = ts_utils.get_node_at_cursor()
-	if not node then
+	-- Use modern vim.treesitter API instead of deprecated nvim-treesitter.ts_utils
+	-- vim.treesitter.get_node() is available in Neovim 0.9+
+	local ok, node = pcall(vim.treesitter.get_node)
+	if not ok or not node then
 		return nil
 	end
 
